@@ -8,5 +8,6 @@ $controlador = new ControladorUsuario();
 $accion = isset($_GET['accion']) ? $_GET['accion'] : '';
 
 // Procesar la solicitud
+
 $controlador->procesarSolicitud($accion);
 ?>

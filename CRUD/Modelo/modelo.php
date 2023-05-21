@@ -25,6 +25,8 @@ class Modelo {
         return 0;
     }
 
+    
+
     // Método para actualizar un registro en la tabla
     public function actualizarRegistro($tabla, $datos, $condicion) {
         if (!empty($tabla) && !empty($datos) && !empty($condicion)) {
@@ -89,11 +91,13 @@ class Modelo {
         return null;
     }
 
-    public function eliminarRegistro($tabla, $id) {
-        if (!empty($tabla) && !empty($id)) {
+
+    public function eliminarRegistro($tabla, $datos) {
+        if (!empty($tabla) && !empty($datos)) {
+            $id = $datos['id'];
             $sql = "DELETE FROM $tabla WHERE id = :id";
             $statement = $this->conexion->prepare($sql);
-            $statement->execute(array(':id' => $id));
+            $statement->execute([':id' => $id]);
             $rowCount = $statement->rowCount();
             
             // Verificar si se eliminó correctamente el registro
@@ -105,6 +109,22 @@ class Modelo {
         }
         return null; // Parámetros vacíos
     }
+
+    public function obtenerSiguienteID($tabla) {
+        if (!empty($tabla)) {
+            $sql = "SELECT MAX(id) AS max_id FROM $tabla";
+            $statement = $this->conexion->prepare($sql);
+            $statement->execute();
+            $resultado = $statement->fetch(PDO::FETCH_ASSOC);
+    
+            $siguienteID = $resultado['max_id'] + 1;
+            return $siguienteID;
+        }
+    
+        return null;
+    }
+    
+    
 
     // ... otros métodos
 

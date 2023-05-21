@@ -32,9 +32,13 @@ class ControladorUsuario {
         $datos = [
             'id' => $id,
         ];
-    
         $resultado = $this->modelo->eliminarRegistro($this->tabla, $datos);
         echo $resultado;
+    }
+
+    public function obtenerSiguienteID(){
+        $siguienteID = $this->modelo->obtenerSiguienteID($this->tabla);
+        echo $siguienteID;
     }
     
 
@@ -42,6 +46,7 @@ class ControladorUsuario {
         $usuarios = $this->modelo->listarRegistros($this->tabla);
         return json_encode($usuarios);
     }
+
 
 
 
@@ -63,6 +68,9 @@ class ControladorUsuario {
                 echo $this->obtenerUsuarios();
                 break;
             // Agrega más casos para otras acciones si es necesario
+            case 'obtenerSiguienteID':
+                $this->obtenerSiguienteID();
+                break;
             default:
             echo "Procesando solicitud con acción: " . $accion . "<br>";
                 break;

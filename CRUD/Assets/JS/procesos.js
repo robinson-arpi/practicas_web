@@ -65,10 +65,12 @@ function eliminarUsuario(id) {
   xhr.onload = function() {
     if (xhr.status === 200) {
       var respuesta = xhr.responseText;
+      console.log('Respuesta' + respuesta +'--');
       if (respuesta === 'eliminado') {
         mostrarAlertaExitosa('Usuario eliminado');
-      } else {
-        mostrarAlertaFallida('No ha sido posible eliminar al usuario');
+        obtenerUsuarios()
+      }else {
+        mostrarAlertaFallida('No ha sido posible eliminar al usuario: ' + respuesta);
       }
     } else {
       mostrarAlertaFallida('Problema con el servidor');
@@ -97,9 +99,10 @@ function actualizarTablaUsuarios() {
 
                 // Obtener la referencia a la tabla de usuarios
                 var tabla = document.getElementById('tabla-usuarios');
-
+                var tablaCabecera = tabla.querySelector('thead');
+                var tablaCuerpo = tabla.querySelector('tbody');
                 // Limpiar la tabla
-                tabla.innerHTML = '';
+                tablaCuerpo.innerHTML = '';
 
                 // Iterar sobre los usuarios y agregar filas a la tabla
                 usuarios.forEach(function (usuario) {
@@ -115,8 +118,10 @@ function actualizarTablaUsuarios() {
                         '</td>' +
                         '</tr>';
 
-                    tabla.innerHTML += fila;
+                        tablaCuerpo.insertAdjacentHTML('beforeend', fila);
+
                 });
+                
             } catch (error) {
                 console.error('Error al analizar la respuesta JSON:', error);
                 console.log('Respuesta del servidor:', xhr.responseText); // Imprimir la respuesta del servidor en la consola
@@ -132,7 +137,9 @@ function actualizarTablaUsuarios() {
 function crearTablaUsuarios(usuarios) {
     // Obtener la referencia a la tabla de usuarios
     var tabla = document.getElementById('tabla-usuarios');
-  
+    
+                var tablaCabecera = tabla.querySelector('thead');
+                var tablaCuerpo = tabla.querySelector('tbody');
     // Limpiar la tabla
     tabla.innerHTML = '';
   
@@ -152,6 +159,7 @@ function crearTablaUsuarios(usuarios) {
   
       tabla.innerHTML += fila;
     });
+    tabla.appendChild(tablaCabecera);
   
     // Obtener todos los botones de eliminar
   var botonesEliminar = document.querySelectorAll('#tabla-usuarios .btn-danger');
@@ -185,10 +193,38 @@ function crearTablaUsuarios(usuarios) {
   
     xhr.send();
   }
+
+  // Función para obtener los usuarios mediante una solicitud AJAX
+  function obtenerSiguienteID() {
+    // Crear la solicitud GET
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '../CRUD/Controlador/procesar.php?obtenerSiguienteID', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        var respuesta = xhr.responseText;
+        console.log('Obtiene: ' +respuesta);
+        if (respuesta === '') {
+          mostrarAlertaFallida('No ha sido posibleobtener el siguiente ID: ' + respuesta);
+        }else{
+          var lbl_ID = document.getElementById('lbl_ID');
+          lbl_ID.textContent += respuesta;
+        }
+      } else {
+        mostrarAlertaFallida('Problema con el servidor');
+      }
+    };
+  
+    // Enviar la solicitud GET
+    xhr.send();
+  
+  }
   
   // Llamar a la función para obtener los usuarios al cargar la página
   window.onload = function () {
     obtenerUsuarios();
+    obtenerSiguienteID();
   };
   
 /*-----------------------------------------------------
@@ -218,11 +254,14 @@ function mostrarAlertaRegistroFallido() {
 function confirmarEliminarUsuario(idUsuario) {
   Swal.fire({
     icon: 'question',
-    title: 'Confirmar eliminación',
-    text: '¿Estás seguro de que dese eliminar al usuario' + idUsuario + '?',
+    title: 'Confirmar eliminacion',
+    text: 'Esta seguro de que desea eliminar al usuario ' + idUsuario + '?',
     showCancelButton: true,
     confirmButtonText: 'Confirmar',
-    cancelButtonText: 'Cancelar'
+    cancelButtonText: 'Cancelar',
+    customClass: {
+      confirmButton: 'btn_sweet',
+    },
   }).then((result) => {
     if (result.isConfirmed) {
       // El usuario confirmó la acción
@@ -239,6 +278,9 @@ function mostrarAlertaExitosa(mensaje) {
     icon: 'success',
     title: 'Accion exitosa',
     text: mensaje,
+    customClass: {
+      confirmButton: 'btn_sweet',
+    },
   });
 }
 
@@ -247,5 +289,8 @@ function mostrarAlertaFallida(mensaje) {
     icon: 'error',
     title: 'Accion fallida',
     text: mensaje,
+    customClass: {
+      confirmButton: 'btn_sweet',
+    },
   });
 }

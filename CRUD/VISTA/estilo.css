@@ -1,19 +1,28 @@
+:root {
+  --color-fuerte-1: #1c1c2d;
+  --color-fuerte-2: #26263d;
+  --color-resaltado-suave: #cc59fe;
+  --color-resaltado-suave2: #ca98e0;
+  --color-resaltado-fuerte: #7624b1;
+  --color-resaltado-fondo: #ffc6fb;
+  --color-contraste-fonde-fuerte: #9395a9;
+}
 
-/* Estilos generales 
-
-
-fuerte #1c1c2d
-fuerte 2 #26263d
-resaltado 1 #cc59fe
-resaltado fuerte #b041ff
-resaltado suave #ffc6fb
-contraste de fuerte: #9395a9
-
-*/
 body {
   font-family: Arial, sans-serif;
   margin: none;
   height: 100vh;
+}
+
+.contenedor_registro{
+  border-right: 1px solid white; /* Agregamos un borde inferior con una línea blanca */
+}
+.contenedor_campos {
+  border-top: 1px solid gray; /* Agregamos un borde inferior con una línea blanca */
+  padding-top: 1vh;
+}
+tr {
+  border-bottom: 1px solid var(--color-resaltado-suave); /* Agregamos un borde inferior con un tono de gris más claro */
 }
 .titulo {
   background-color: #1c1c2d;
@@ -44,24 +53,28 @@ h1 {
 }
 */
 
-.listado {
+.contenedor_tabla {
     /* Establecer overflow en auto o scroll */
-    overflow-y: scroll;
+    overflow: auto; /* Permite que el contenido desborde y muestre la barra de desplazamiento cuando sea necesario */
+    height: 70vh;
 }
 .contenido {
   background-color: #27273a;
   margin: none !important;
   padding-bottom: 30px;
-  height: 500px;
+  height: 90vh;
 
 }
 
 .panel_derecho {
-  background-color: white;
+  background-color: #27273a;
   color: white;
-  padding:none !important;
+
 }
 
+.p-4 {
+  padding: 1rem!important;
+}
 .titulo_panel_derecho {
   background-color: #27273a;
   color: white;
@@ -109,7 +122,7 @@ input[type="email"] {
 }
 
 .cabecera_tabla {
-  background-color: #510b83 !important;
+  background-color: var(--color-resaltado-fuerte) !important;
   color: white;
 }
 
@@ -122,7 +135,7 @@ input[type="email"] {
 }
 
 .table tbody tr:hover {
-  background-color: gray;
+  background-color: var(--color-resaltado-suave2);
 }
 
 
@@ -134,4 +147,8 @@ footer {
    justify-self: center;
    flex-direction: column;
    align-items: center;
+}
+
+.btn_sweet {
+  background-color:#1c1c2d;
 }
