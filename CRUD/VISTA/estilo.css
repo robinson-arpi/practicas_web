@@ -1,0 +1,137 @@
+
+/* Estilos generales 
+
+
+fuerte #1c1c2d
+fuerte 2 #26263d
+resaltado 1 #cc59fe
+resaltado fuerte #b041ff
+resaltado suave #ffc6fb
+contraste de fuerte: #9395a9
+
+*/
+body {
+  font-family: Arial, sans-serif;
+  margin: none;
+  height: 100vh;
+}
+.titulo {
+  background-color: #1c1c2d;
+  height: 10%;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+
+  border-bottom: 1px solid white; /* Agregamos un borde inferior con una línea blanca */
+  padding: 0; /* Reemplazamos 'none' por '0' para eliminar el padding */
+
+}
+
+h1 {
+  text-align: center;
+  color: white;
+  border: none;
+  padding: none;
+}
+
+/*
+.neon-text-purple {
+  color: #9c27b0;  Color neon morado 
+  text-shadow: 0 0 5px #9c27b0, 0 0 10px #9c27b0, 0 0 15px #9c27b0; 
+}
+*/
+
+.listado {
+    /* Establecer overflow en auto o scroll */
+    overflow-y: scroll;
+}
+.contenido {
+  background-color: #27273a;
+  margin: none !important;
+  padding-bottom: 30px;
+  height: 500px;
+
+}
+
+.panel_derecho {
+  background-color: white;
+  color: white;
+  padding:none !important;
+}
+
+.titulo_panel_derecho {
+  background-color: #27273a;
+  color: white;
+}
+
+h2 {
+  margin-top: 30px;
+}
+
+
+label {
+  display: block;
+  color: white;
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+}
+
+.contenedor_btn_registro {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 4%;
+}
+
+#btn_registrar {
+  padding: 10px 20px;
+  background-color: #b041ff !important;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btnRegistro {
+  background-color: #b041ff
+}
+
+.cabecera_tabla {
+  background-color: #510b83 !important;
+  color: white;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #b041ff;
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: #eaeaea;
+}
+
+.table tbody tr:hover {
+  background-color: gray;
+}
+
+
+footer {
+  height: 5%;
+  background-color: #1c1c2d;
+  color:white;
+   display: flex;
+   justify-self: center;
+   flex-direction: column;
+   align-items: center;
+}
