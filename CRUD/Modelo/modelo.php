@@ -76,12 +76,13 @@ class Modelo {
     }
 
     // Método para recuperar un registro por su ID
-    public function recuperarRegistro($tabla, $id) {
+    public function recuperarRegistro($tabla, $datos) {
         if (!empty($tabla) && !empty($id)) {
+            $id = $datos['id'];
             $sql = "SELECT * FROM $tabla WHERE id = :id";
 
             $statement = $this->conexion->prepare($sql);
-            $statement->execute(array(':id' => $id));
+            $statement->execute([':id' => $id]);
 
             $resultado = $statement->fetch(PDO::FETCH_ASSOC);
 

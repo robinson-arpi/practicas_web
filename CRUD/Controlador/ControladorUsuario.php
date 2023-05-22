@@ -40,7 +40,17 @@ class ControladorUsuario {
         $siguienteID = $this->modelo->obtenerSiguienteID($this->tabla);
         echo $siguienteID;
     }
-    
+    public function obtenerUsuarioPorID($id){
+        $datos = [
+            'id' => $id,
+        ];
+        $usuario = $this->modelo->recuperarRegistro($this->tabla, $datos);
+        if ($usuario) {
+            echo json_encode($usuario);
+        } else {
+            echo json_encode(array()); // Devuelve un objeto JSON vacío si no se encuentra el usuario
+        }
+    }    
 
     public function obtenerUsuarios() {
         $usuarios = $this->modelo->listarRegistros($this->tabla);
@@ -64,6 +74,10 @@ class ControladorUsuario {
                 $id = $_GET['id'];
                 $this->eliminarUsuario($id);
                 break;
+            case 'obtenerUsuarioPorID':
+                $id = $_GET['id'];
+                echo $this->obtenerUsuarioPorID($id);
+                break;    
             case 'obtenerUsuarios':
                 echo $this->obtenerUsuarios();
                 break;
@@ -72,7 +86,7 @@ class ControladorUsuario {
                 $this->obtenerSiguienteID();
                 break;
             default:
-            echo "Procesando solicitud con acción: " . $accion . "<br>";
+                echo "Procesando solicitud con acción: " . $accion . "<br>";
                 break;
         }
     }
