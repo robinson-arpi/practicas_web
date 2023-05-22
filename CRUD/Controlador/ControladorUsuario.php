@@ -27,6 +27,27 @@ class ControladorUsuario {
         }
         echo $respuesta;
     }
+
+    public function actualizarUsuario($id, $nombre, $direccion, $telefono, $email) {
+        $datos = [
+            'nombre' => $nombre,
+            'direccion' => $direccion,
+            'telefono' => $telefono,
+            'email' => $email
+        ];
+    
+        $condicion = 'id = :id';
+        $datos['id'] = $id;
+    
+        $filasActualizadas = $this->modelo->actualizarRegistro($this->tabla, $datos, $condicion);
+    
+        if ($filasActualizadas > 0) {
+            echo "Actualizado";
+        } else {
+            echo "No actualizado";
+        }
+    }
+    
     
     public function eliminarUsuario($id) {
         $datos = [
@@ -70,6 +91,14 @@ class ControladorUsuario {
                 $email = $_GET['email'];
                 $this->registrarUsuario($nombre, $direccion, $telefono, $email);
                 break;
+            case 'actualizarUsuario':
+                $nombre = $_GET['nombre'];
+                $direccion = $_GET['direccion'];
+                $telefono = $_GET['telefono'];
+                $email = $_GET['email'];
+                $id = $_GET['id'];
+                $this->actualizarUsuario($id, $nombre, $direccion, $telefono, $email);
+                break;    
             case 'eliminarUsuario':
                 $id = $_GET['id'];
                 $this->eliminarUsuario($id);

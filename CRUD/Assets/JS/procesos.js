@@ -1,11 +1,22 @@
 // Obtener referencia al botones
 var btnRegistrar = document.getElementById('btnRegistrar');
+var btnActualizar = document.getElementById('btnActualizar');
+var btnCancelar = document.getElementById('btnCancelar');
 // Agregar evento de escucha al botón
 btnRegistrar.addEventListener('click', function() {
     event.preventDefault();
     registrarUsuario();
 });
 
+btnActualizar.addEventListener('click', function() {
+  event.preventDefault();
+  actualizarUsuario();
+});
+
+btnCancelar.addEventListener('click', function() {
+  event.preventDefault();
+  actualizarVentana();
+});
 
 function registrarUsuario() {
   // Obtener los valores del formulario
@@ -35,7 +46,7 @@ function registrarUsuario() {
 
       if (respuesta === 'success') {
         mostrarAlertaExitosa('Usuario registrado')
-        obtenerUsuarios();
+        actualizarVentana();
         obtenerSiguienteID();
       } else {
         mostrarAlertaFallida('El registro ha fallado')
@@ -48,6 +59,56 @@ function registrarUsuario() {
   // Enviar la solicitud GET
   xhr.send();
 
+}
+
+
+function actualizarUsuario() {
+  // Obtener los valores del formulario
+  var nombre = document.getElementById('nombre').value;
+  var direccion = document.getElementById('direccion').value;
+  var telefono = document.getElementById('telefono').value;
+  var email = document.getElementById('email').value;
+  
+  // Obtener el elemento por su ID
+  var lblID = document.getElementById('lbl_ID');
+
+  // Obtener el contenido del elemento
+  var contenido = lblID.textContent;
+
+
+  // Codificar los datos en la cadena de consulta
+  var queryString = 'accion=actualizarUsuario' +
+    '&id=' + parseInt(contenido.substring(3)) +
+    '&nombre=' + encodeURIComponent(nombre) +
+    '&direccion=' + encodeURIComponent(direccion) +
+    '&telefono=' + encodeURIComponent(telefono) +
+    '&email=' + encodeURIComponent(email);
+
+  // Construir la URL con los datos en la cadena de consulta
+  var url = '../CRUD/Controlador/procesar.php?' + queryString;
+
+  console.log(url);
+
+  // Crear la solicitud GET
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var respuesta = xhr.responseText;
+      if (respuesta === 'Actualizado') {
+        mostrarAlertaExitosa('Usuario actualizado')
+        actualizarVentana();
+      } else {
+        mostrarAlertaFallida('La actualizacion ha fallado')
+      }
+    } else {
+      mostrarAlertaFallida('Problema con la conexion');
+    }
+  };
+  // Enviar la solicitud GET
+  xhr.send();
 }
 
 
@@ -153,7 +214,6 @@ function cargarDatos(idUsuario) {
   xhr.onload = function () {
     if (xhr.status === 200) {
       var usuario = JSON.parse(xhr.responseText);
-      console.log("Usuario: "+ usuario + "--");
       var lbl_ID = document.getElementById('lbl_ID');
       var input_nombre = document.getElementById('nombre');
       var input_direccion = document.getElementById('direccion');
@@ -164,7 +224,7 @@ function cargarDatos(idUsuario) {
       input_direccion.value = usuario.direccion;
       input_telefono.value = usuario.telefono;
       input_email.value = usuario.email;
-      
+      alternarBotones(true);
     } else {
       console.error('Error en la solicitud: ' + xhr.status + '--');
 
@@ -172,6 +232,17 @@ function cargarDatos(idUsuario) {
   };
 
   xhr.send();
+}
+
+function limpiarCampos(){
+  var input_nombre = document.getElementById('nombre');
+  var input_direccion = document.getElementById('direccion');
+  var input_telefono = document.getElementById('telefono');
+  var input_email = document.getElementById('email');
+  input_nombre.value = "";
+  input_direccion.value = "";
+  input_telefono.value = "";
+  input_email.value = "";
 }
 
   
@@ -223,9 +294,15 @@ function cargarDatos(idUsuario) {
   
   // Llamar a la función para obtener los usuarios al cargar la página
   window.onload = function () {
+    actualizarVentana();
+  };
+
+  function actualizarVentana(){
     obtenerUsuarios();
     obtenerSiguienteID();
-  };
+    alternarBotones(false);
+    limpiarCampos();
+  }
   
 /*-----------------------------------------------------
 ALERTAS
@@ -234,6 +311,7 @@ ALERTAS
 // Llamar a la función para mostrar la alerta
 //mostrarAlertaRegistroExitoso();
 
+
 // Función para mostrar la alerta de registro exitoso
 function mostrarAlertaRegistroExitoso() {
   Swal.fire({
@@ -241,7 +319,7 @@ function mostrarAlertaRegistroExitoso() {
     title: 'Registro exitoso',
     text: 'El usuario ha sido registrado correctamente',
   });
-}
+};
 
 function mostrarAlertaRegistroFallido() {
   Swal.fire({
@@ -249,7 +327,7 @@ function mostrarAlertaRegistroFallido() {
     title: 'Registro fallido',
     text: 'Usuario no ha sido registrado',
   });
-}
+};
 
 function confirmarEliminarUsuario(idUsuario) {
   Swal.fire({
@@ -293,4 +371,19 @@ function mostrarAlertaFallida(mensaje) {
       confirmButton: 'btn_sweet',
     },
   });
+}
+
+function alternarBotones(bandera){
+  // Obtener el elemento por su clase
+  var contenedorBtnRegistro = document.querySelector('.contenedor_btn_registro');
+  var contenedorBtnActualizar = document.querySelector('.contenedor_btn_actualizar');
+
+  if (bandera){
+    // Ocultar el elemento cambiando la propiedad display a "none"
+    contenedorBtnRegistro.style.display = 'none';
+    contenedorBtnActualizar.style.display = 'flex';
+  }else{
+    contenedorBtnRegistro.style.display = 'flex';
+    contenedorBtnActualizar.style.display = 'none';
+  }
 }

@@ -35,15 +35,11 @@ class Modelo {
                 $set .= "$columna = :$columna, ";
             }
             $set = rtrim($set, ", ");
-
             $sql = "UPDATE $tabla SET $set WHERE $condicion";
-
             $statement = $this->conexion->prepare($sql);
             $statement->execute($datos);
-
             return $statement->rowCount();
         }
-
         return 0;
     }
 
@@ -77,8 +73,8 @@ class Modelo {
 
     // Método para recuperar un registro por su ID
     public function recuperarRegistro($tabla, $datos) {
-        if (!empty($tabla) && !empty($id)) {
-            $id = $datos['id'];
+        if (!empty($tabla) && !empty($datos['id'])) {
+            $id = intval($datos['id']);
             $sql = "SELECT * FROM $tabla WHERE id = :id";
 
             $statement = $this->conexion->prepare($sql);
