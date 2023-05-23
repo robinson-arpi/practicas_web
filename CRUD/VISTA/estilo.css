@@ -122,7 +122,8 @@ input[type="email"] {
 
 #btn_registrar {
   padding: 10px 20px;
-  background-color: #b041ff !important;
+  background-color: var(--color-resaltado-suave) !important;
+  border-color: var(--color-resaltado-suave) !important;
   color: white;
   border: none;
   border-radius: 4px;

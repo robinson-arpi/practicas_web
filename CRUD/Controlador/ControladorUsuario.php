@@ -1,6 +1,8 @@
 <?php
 require_once '../Modelo/modelo.php';
 require_once '../CONFIG/conexion.php';
+require_once 'enviarCorreo.php';
+require_once 'generarPDF.php';
 
 class ControladorUsuario {
     private $modelo;
@@ -21,8 +23,10 @@ class ControladorUsuario {
     
         $resultado = $this->modelo->ingresarRegistro($this->tabla, $datos);
         if ($resultado) {
+            generarPDF($nombre);
+            enviarCorreo($email, $nombre);
             $respuesta = 'success';
-        } else {
+        }else {
             $respuesta = 'no success';
         }
         echo $respuesta;
