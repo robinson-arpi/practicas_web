@@ -1,0 +1,163 @@
+:root {
+    --color-fuerte-1: #1c1c2d;
+    --color-fuerte-2: #26263d;
+    --color-resaltado-suave: #cc59fe;
+    --color-resaltado-suave2: #ca98e0;
+    --color-resaltado-fuerte: #7624b1;
+    --color-resaltado-fondo: #ffc6fb;
+    --color-contraste-fonde-fuerte: #9395a9;
+  }
+  
+body {
+    font-family: Arial, sans-serif;
+    margin: none;
+    height: 100vh;
+    .titulo {
+        background-color: var(--color-fuerte-1);
+        height: 10%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        border-bottom: 1px solid white; /* Agregamos un borde inferior con una línea blanca */
+        padding: 0; /* Reemplazamos 'none' por '0' para eliminar el padding */
+        h1 {
+            text-align: center;
+            color: white;
+            border: none;
+            padding: none;
+        }
+    }
+}
+
+  .contenedor_registro{
+    border-right: 1px solid white; /* Agregamos un borde inferior con una línea blanca */
+  }
+  .contenedor_campos {
+    border-top: 1px solid gray; /* Agregamos un borde inferior con una línea blanca */
+    padding-top: 1vh;
+  }
+  tr {
+    border-bottom: 1px solid var(--color-resaltado-suave); /* Agregamos un borde inferior con un tono de gris más claro */
+  }
+  
+  .contenedor_tabla {
+      /* Establecer overflow en auto o scroll */
+      overflow: auto; /* Permite que el contenido desborde y muestre la barra de desplazamiento cuando sea necesario */
+      height: 70vh;
+  }
+  .contenido {
+    background-color: #27273a;
+    margin: none !important;
+    padding-bottom: 30px;
+    height: 90vh;  
+  }
+  
+  .panel_derecho {
+    background-color: #27273a;
+    color: white;
+  }
+  
+  .p-4 {
+    padding: 1rem!important;
+  }
+  .titulo_panel_derecho {
+    background-color: #27273a;
+    color: white;
+  }
+  
+  h2 {
+    margin-top: 30px;
+  }
+  
+  label {
+    display: block;
+    color: white;
+    margin-bottom: 10px;
+  }
+  
+  input[type="text"],
+  input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 1%;
+  }
+  
+  .contenedor_btn_registro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 4%;
+  }
+  
+  .contenedor_btn_actualizar {
+    display: flex;
+    justify-content: center;
+    padding-top: 4%;
+  }
+  .contenedor_btn_actualizar button:first-child {
+    margin-right: 10px; /* Ajusta el valor según el espacio deseado */
+  }
+  
+  .contenedor_btn_actualizar button:last-child {
+    margin-left: 10px; /* Ajusta el valor según el espacio deseado */
+  }
+  
+  #btn_registrar {
+    padding: 10px 20px;
+    background-color: var(--color-resaltado-suave) !important;
+    border-color: var(--color-resaltado-suave) !important;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btnRegistro {
+    background-color: var(--color-resaltado-fuerte) !important;
+    border-color: var(--color-resaltado-fuerte) !important;
+    &:hover{
+        background-color: var(--color-resaltado-suave) !important;
+    }
+  }
+  
+  .form-control:focus {
+    border-color: var(--color-resaltado-fuerte) !important;
+    box-shadow: 0 0 0 0.25rem var(--color-resaltado-suave) !important;
+  }
+
+  .cabecera_tabla {
+    background-color: var(--color-resaltado-fuerte) !important;
+    color: white;
+  }
+  
+  .table tbody tr:nth-child(even) {
+    background-color: #b041ff;
+  }
+  
+  .table tbody tr:nth-child(odd) {
+    background-color: #eaeaea;
+  }
+  
+  .table tbody tr:hover {
+    background-color: var(--color-resaltado-suave2);
+  }
+  
+  .btn_sweet {
+    background-color:var(--color-resaltado-fuerte) !important;
+    &:hover{
+        background-color:var(--color-resaltado-suave) !important;
+    }
+  }
+
+
+.contenedor_busqueda {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 2%;
+  #busqueda {
+    width: 90%;
+  }
+}

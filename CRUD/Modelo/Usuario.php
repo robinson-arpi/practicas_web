@@ -2,21 +2,22 @@
 // Clase POJO representa un objeto con sus propiedades y métodos getter y setter
 // Creacion clase usuario para representar un objeto USUARIO
 class Usuario {
-    
-    private $id;
-    private $nombre;
-    private $direccion;
-    private $telefono;
-    private $email;
+    public $id;
+    public $nombre;
+    public $direccion;
+    public $telefono;
+    public $email;
+
+    public function __construct($id = null, $nombre = '', $direccion = '', $telefono = '', $email = '') {
+        $this->id = $id;
+        $this->nombre = $nombre;
+        $this->direccion = $direccion;
+        $this->telefono = $telefono;
+        $this->email = $email;
+    }
 
     // Métodos getters y setters para las propiedades
-    public function id() {
-        return $this->id;
-    }
-    public function setId($id) {
-        $this->nombre = $id;
-    }
-    
+   
     public function getNombre() {
         return $this->nombre;
     }

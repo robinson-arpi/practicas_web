@@ -1,7 +1,7 @@
 <?php
 require_once '../Modelo/modelo.php';
-require_once '../CONFIG/conexion.php';
-require_once 'enviarCorreo.php';
+require_once '../Modelo/Usuario.php';
+require_once 'enviarCorreoMailer.php';
 require_once 'generarPDF.php';
 
 class ControladorUsuario {
@@ -12,79 +12,75 @@ class ControladorUsuario {
         $this->modelo = new Modelo();
     }
 
-    // Función para registrar un usuario
+    /*-------------------------------------------
+    Métodos para CRUD
+    --------------------------------------------*/
     public function registrarUsuario($nombre, $direccion, $telefono, $email) {
-        $datos = [
-            'nombre' => $nombre,
-            'direccion' => $direccion,
-            'telefono' => $telefono,
-            'email' => $email
-        ];
-    
-        $resultado = $this->modelo->ingresarRegistro($this->tabla, $datos);
+        $usuario = new Usuario(null, $nombre, $direccion, $telefono, $email);
+        $resultado = $this->modelo->insertar($this->tabla, $usuario);
         if ($resultado) {
-            generarPDF($nombre);
-            enviarCorreo($email, $nombre);
-            $respuesta = 'success';
+            echo 'registrado';
         }else {
-            $respuesta = 'no success';
+            echo 'no registrado';
         }
-        echo $respuesta;
+    }
+
+    public function listarUsuarios() {
+        $usuarios = $this->modelo->listar($this->tabla);
+        return json_encode($usuarios);
     }
 
     public function actualizarUsuario($id, $nombre, $direccion, $telefono, $email) {
-        $datos = [
-            'nombre' => $nombre,
-            'direccion' => $direccion,
-            'telefono' => $telefono,
-            'email' => $email
-        ];
-    
-        $condicion = 'id = :id';
-        $datos['id'] = $id;
-    
-        $filasActualizadas = $this->modelo->actualizarRegistro($this->tabla, $datos, $condicion);
-    
-        if ($filasActualizadas > 0) {
-            echo "Actualizado";
+        $usuario = new Usuario($id, $nombre, $direccion, $telefono, $email);
+        $condicion = 'id = '.$id;
+        $respuesta = $this->modelo->actualizar($this->tabla, $usuario, $condicion);
+        if ($respuesta) {
+            echo "actualizado";
         } else {
-            echo "No actualizado";
+            echo "no actualizado";
+        }
+    }
+
+    public function eliminarUsuario($id) {
+        $condicion = 'id = '.$id;
+        $respuesta = $this->modelo->eliminar($this->tabla, $condicion);
+        if ($respuesta) {
+            echo "eliminado";
+        } else {
+            echo "no eliminado";
         }
     }
     
-    
-    public function eliminarUsuario($id) {
-        $datos = [
-            'id' => $id,
-        ];
-        $resultado = $this->modelo->eliminarRegistro($this->tabla, $datos);
-        echo $resultado;
-    }
-
+    /*-------------------------------------------
+    Métodos extra
+    --------------------------------------------*/
     public function obtenerSiguienteID(){
         $siguienteID = $this->modelo->obtenerSiguienteID($this->tabla);
         echo $siguienteID;
     }
+
     public function obtenerUsuarioPorID($id){
-        $datos = [
-            'id' => $id,
-        ];
-        $usuario = $this->modelo->recuperarRegistro($this->tabla, $datos);
-        if ($usuario) {
-            echo json_encode($usuario);
+        $condicion = 'id = '.intval($id);
+        $respuesta = $this->modelo->buscar($this->tabla, $condicion);
+        //echo "obtener usuario: ";
+        //print_r($respuesta);
+        return json_encode($respuesta);
+    }    
+
+    public function buscarEnTodo($cadena){
+        $usuario = new Usuario(null, $cadena, $cadena, $cadena, $cadena);
+
+        $respuesta = $this->modelo->buscarEnTodo($this->tabla, $usuario);
+        if ($respuesta) {
+            echo json_encode($respuesta);
         } else {
             echo json_encode(array()); // Devuelve un objeto JSON vacío si no se encuentra el usuario
         }
-    }    
-
-    public function obtenerUsuarios() {
-        $usuarios = $this->modelo->listarRegistros($this->tabla);
-        return json_encode($usuarios);
     }
-
-
-
-
+    
+    /*-------------------------------------------
+    Gestión de conexiones
+    --------------------------------------------*/
     public function procesarSolicitud($accion) {
         
         switch ($accion) {
@@ -94,6 +90,12 @@ class ControladorUsuario {
                 $telefono = $_GET['telefono'];
                 $email = $_GET['email'];
                 $this->registrarUsuario($nombre, $direccion, $telefono, $email);
+                break;
+            case 'enviarCorreo':
+                $nombre = $_GET['nombre'];
+                $email = $_GET['email'];
+                generarPDF($nombre);
+                echo enviarCorreo($email, $nombre);
                 break;
             case 'actualizarUsuario':
                 $nombre = $_GET['nombre'];
@@ -111,8 +113,12 @@ class ControladorUsuario {
                 $id = $_GET['id'];
                 echo $this->obtenerUsuarioPorID($id);
                 break;    
+            case 'buscarUsuario':
+                $busqueda = $_GET['cadenaBusqueda'];
+                echo $this->buscarEnTodo($busqueda);
+                break;
             case 'obtenerUsuarios':
-                echo $this->obtenerUsuarios();
+                echo $this->listarUsuarios();
                 break;
             // Agrega más casos para otras acciones si es necesario
             case 'obtenerSiguienteID':
@@ -123,10 +129,14 @@ class ControladorUsuario {
                 break;
         }
     }
-
-
 }
+/*
+$test = new ControladorUsuario();
+$resultado =$test->registrarUsuario("hooid", "valle", "123", "robinson.arpi@ucuenca.edu.ec");
+echo $resultado;
 
 
-
+$test = new ControladorUsuario();
+$test->obtenerUsuarioPorID('10');
+*/
 ?>
