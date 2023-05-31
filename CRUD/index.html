@@ -32,11 +32,28 @@
                 <input type = "text" class = "form-control" name = "telefono" id = "telefono" required>
 
                 <label for = "e-mail" class = "form-label">E-mail:</label>
-                <input type = "mail" class = "form-control" name = "e-mail" id = "email" required>
-                
+                <input type = "text" class = "form-control" name = "e-mail" id = "email" required>
+
+                <div class="contenedor_selectores">
+                    <div class="selector">
+                      <div class="grupo_entrada">
+                        <label id="lbl_provincias" for="provincias" class="form-label">Provincia:</label>
+                        <select id="provincias"></select>
+                      </div>
+                    </div>
+                    <div class="selector">
+                      <div class="grupo_entrada">
+                        <label id="lbl_ciudades" for="ciudades" class="form-label">Ciudad:</label>
+                        <select id="ciudades"></select>
+                      </div>
+                    </div>
+                </div>
+                  
+                  
                 <div class = "contenedor_btn_registro" id = "registro">
                     <button type = "submit" class = "btn btn-primary btnRegistro" id = "btnRegistrar" value="ok">Registrar</button>
                 </div>
+
                 <div class = "contenedor_btn_actualizar" id = "actualizar">
                     <button type = "submit" class = "btn btn-primary btnRegistro" id = "btnActualizar" value="ok">Actualizar</button>
                     <button type = "submit" class = "btn btn-primary btnRegistro" id = "btnCancelar" value="ok">Cancelar</button>
@@ -62,6 +79,7 @@
                                 <th scope = "col">DIRECCION</th>
                                 <th scope = "col">TELEFONO</th>
                                 <th scope = "col">E-MAIL</th>
+                                <th scope = "col">CIUDAD</th>
                                 <th scope = "col"></th>
                             </tr>
                         </thead>

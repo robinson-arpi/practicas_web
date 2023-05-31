@@ -17,11 +17,11 @@ class Modelo {
     /*-------------------------------------------
     Métodos para CRUD
     --------------------------------------------*/
-    public function insertar($tabla, $data){
-        $atributos = get_object_vars($data);
+    public function insertar($tabla, $datos){
+        $atributos = get_object_vars($datos);
         $columnas = implode(", ", array_keys($atributos));
         $valores = implode("', '", array_values($atributos));
-        $consulta = "INSERT INTO $tabla ($columnas) VALUES ('$valores')"; // Solo para fines de depuración
+        $consulta = "INSERT INTO $tabla ($columnas) VALUES ('$valores')";
         $resultado = $this->conexion->query($consulta);
         if($resultado){
             return true;
@@ -130,6 +130,7 @@ class Modelo {
 
         return null;
     }
+
 }
 /*
 $test = new Modelo();

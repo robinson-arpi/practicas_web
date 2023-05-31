@@ -50,8 +50,6 @@ tr {
   height: 70vh;
 }
 
-
-
 .contenido {
   background-color: #27273a;
   margin: none !important;
@@ -86,7 +84,7 @@ label {
 input[type=text],
 input[type=email] {
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 1%;
@@ -169,7 +167,31 @@ input[type=email] {
   width: 90%;
 }
 
-.resaltado {
-  background-color: yellow;
+.container-fluid {
+  margin: 0% !important;
 }
+
+.contenedor_selectores {
+  display: flex !important;
+  justify-content: space-between;
+  flex-direction: row;
+}
+.contenedor_selectores .selector {
+  width: 48% !important;
+}
+.contenedor_selectores .selector .grupo_entrada {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+.contenedor_selectores .selector .grupo_entrada #provincias, .contenedor_selectores .selector .grupo_entrada #ciudades {
+  width: 100% !important;
+}
+.contenedor_selectores .selector .grupo_entrada #provincias:hover, .contenedor_selectores .selector .grupo_entrada #ciudades:hover {
+  border-color: var(--color-resaltado-suave);
+}
+.contenedor_selectores .selector .grupo_entrada #lbl_ciudades, .contenedor_selectores .selector .grupo_entrada #lbl_ciudades {
+  width: 100% !important;
+}
+
 /*# sourceMappingURL=estilos_index.css.map */

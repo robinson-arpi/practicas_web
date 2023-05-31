@@ -7,13 +7,17 @@ class Usuario {
     public $direccion;
     public $telefono;
     public $email;
+    public $ciudad;
 
-    public function __construct($id = null, $nombre = '', $direccion = '', $telefono = '', $email = '') {
+
+
+    public function __construct($id = null, $nombre = '', $direccion = '', $telefono = '', $email = '', $ciudad = '') {
         $this->id = $id;
         $this->nombre = $nombre;
         $this->direccion = $direccion;
         $this->telefono = $telefono;
         $this->email = $email;
+        $this->ciudad = $ciudad;
     }
 
     // Métodos getters y setters para las propiedades

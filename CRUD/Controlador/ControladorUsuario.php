@@ -15,8 +15,8 @@ class ControladorUsuario {
     /*-------------------------------------------
     Métodos para CRUD
     --------------------------------------------*/
-    public function registrarUsuario($nombre, $direccion, $telefono, $email) {
-        $usuario = new Usuario(null, $nombre, $direccion, $telefono, $email);
+    public function registrarUsuario($nombre, $direccion, $telefono, $email, $ciudad) {
+        $usuario = new Usuario(null, $nombre, $direccion, $telefono, $email, $ciudad);
         $resultado = $this->modelo->insertar($this->tabla, $usuario);
         if ($resultado) {
             echo 'registrado';
@@ -30,8 +30,8 @@ class ControladorUsuario {
         return json_encode($usuarios);
     }
 
-    public function actualizarUsuario($id, $nombre, $direccion, $telefono, $email) {
-        $usuario = new Usuario($id, $nombre, $direccion, $telefono, $email);
+    public function actualizarUsuario($id, $nombre, $direccion, $telefono, $email, $ciudad) {
+        $usuario = new Usuario($id, $nombre, $direccion, $telefono, $email, $ciudad);
         $condicion = 'id = '.$id;
         $respuesta = $this->modelo->actualizar($this->tabla, $usuario, $condicion);
         if ($respuesta) {
@@ -68,7 +68,7 @@ class ControladorUsuario {
     }    
 
     public function buscarEnTodo($cadena){
-        $usuario = new Usuario(null, $cadena, $cadena, $cadena, $cadena);
+        $usuario = new Usuario(null, $cadena, $cadena, $cadena, $cadena, $cadena);
 
         $respuesta = $this->modelo->buscarEnTodo($this->tabla, $usuario);
         if ($respuesta) {
@@ -78,6 +78,18 @@ class ControladorUsuario {
         }
     }
     
+    /*-------------------------------------------
+    Métodos para provincias
+    --------------------------------------------*/
+    public function listarProvincias() {
+        $provincias = $this->modelo->listar('provincias');
+        return json_encode($provincias);
+    }
+
+    public function listarCiudades($condicion) {
+        $provincias = $this->modelo->buscar('ciudades', $condicion);
+        return json_encode($provincias);
+    }
     /*-------------------------------------------
     Gestión de conexiones
     --------------------------------------------*/
@@ -89,7 +101,8 @@ class ControladorUsuario {
                 $direccion = $_GET['direccion'];
                 $telefono = $_GET['telefono'];
                 $email = $_GET['email'];
-                $this->registrarUsuario($nombre, $direccion, $telefono, $email);
+                $ciudad = $_GET['ciudad'];
+                $this->registrarUsuario($nombre, $direccion, $telefono, $email, $ciudad);
                 break;
             case 'enviarCorreo':
                 $nombre = $_GET['nombre'];
@@ -102,8 +115,9 @@ class ControladorUsuario {
                 $direccion = $_GET['direccion'];
                 $telefono = $_GET['telefono'];
                 $email = $_GET['email'];
+                $ciudad = $_GET['ciudad'];
                 $id = $_GET['id'];
-                $this->actualizarUsuario($id, $nombre, $direccion, $telefono, $email);
+                $this->actualizarUsuario($id, $nombre, $direccion, $telefono, $email, $ciudad);
                 break;    
             case 'eliminarUsuario':
                 $id = $_GET['id'];
@@ -124,6 +138,14 @@ class ControladorUsuario {
             case 'obtenerSiguienteID':
                 $this->obtenerSiguienteID();
                 break;
+            case 'obtenerProvincias':
+                echo $this->listarProvincias();
+                break;
+            case 'obtenerCiudades':
+                $provincia = $_GET['provincia'];
+                $condicion = 'provincia_id = '.$provincia;
+                echo $this->listarCiudades($condicion);
+                break;         
             default:
                 echo "Procesando solicitud con acción: " . $accion . "<br>";
                 break;

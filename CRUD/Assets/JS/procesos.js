@@ -11,6 +11,8 @@ var input_direccion = document.getElementById('direccion');
 var input_telefono = document.getElementById('telefono');
 var input_email = document.getElementById('email');
 var lbl_ID = document.getElementById('lbl_ID');
+var select_provincias = document.getElementById('provincias');
+var select_ciudad = document.getElementById('ciudades');
 
 /*-----------------------------------------------------
 Botones
@@ -35,18 +37,73 @@ input_busqueda.addEventListener('input', function() {
   obtenerBusqueda();
 });
 
+// Agregar el evento onchange al select
+select_provincias.addEventListener('change', function() {
+  cargarCiudades(select_provincias.selectedIndex + 1);
+});
+
 /*-----------------------------------------------------
 Carga de la vista
 -----------------------------------------------------*/
 window.onload = function () {
   actualizarVentana();
+
 };
+
+function cargarProvincias(){
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '../CRUD/Controlador/procesar.php?accion=obtenerProvincias', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      var provincias = JSON.parse(xhr.responseText);
+      crearSelect(provincias, select_provincias); // Llamar a la función para crear la tabla de usuarios
+    } else {
+      console.error('Error en la solicitud: ' + xhr.status);
+    }
+  };
+  xhr.send();
+}
+
+function cargarCiudades(id_provincia){
+  var queryString = 'accion=obtenerCiudades' +  '&provincia=' + id_provincia;
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '../CRUD/Controlador/procesar.php?' +  queryString, true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      var ciudades = JSON.parse(xhr.responseText);
+      crearSelect(ciudades, select_ciudad); // Llamar a la función para crear la tabla de usuarios
+    } else {
+      console.error('Error en la solicitud: ' + xhr.status);
+    }
+  };
+  xhr.send();
+}
+
+function crearSelect(campos, campoSelect) {
+  // Limpiar el select
+  campoSelect.innerHTML = '';
+
+  // Iterar sobre los campos y crear las opciones
+  for (var i = 0; i < campos.length; i++) {
+    var campo = campos[i];
+    var opcion = document.createElement('option');
+    opcion.value = campo.valor;
+    opcion.textContent = campo.nombre;
+    campoSelect.appendChild(opcion);
+  }
+  campoSelect.selectedIndex = 0;
+}
 
 function actualizarVentana(){
   obtenerUsuarios();
   obtenerSiguienteID();
   alternarBotones(false);
   limpiarCampos();
+  cargarProvincias();
+  select_provincias.selectedIndex = 0;
+  cargarCiudades(select_provincias.selectedIndex + 1);
 }
 
 function limpiarCampos(){
@@ -55,6 +112,7 @@ function limpiarCampos(){
   input_telefono.value = "";
   input_email.value = "";
   input_busqueda.value = "";
+  cargarProvincias();
 }
 
 function alternarBotones(bandera){
@@ -81,7 +139,8 @@ function registrarUsuario() {
   var direccion = input_direccion.value;
   var telefono = input_telefono.value;
   var email = input_email.value;
-  
+  var ciudad = select_ciudad.options[select_ciudad.selectedIndex].text;
+
   //Condicion de campos llenos
   if(camposVacios(nombre, direccion, telefono, email)){
     return;
@@ -97,11 +156,12 @@ function registrarUsuario() {
     '&nombre=' + encodeURIComponent(nombre) +
     '&direccion=' + encodeURIComponent(direccion) +
     '&telefono=' + encodeURIComponent(telefono) +
-    '&email=' + encodeURIComponent(email);
+    '&email=' + encodeURIComponent(email) +
+    '&ciudad=' + encodeURIComponent(ciudad);
 
   // Construir la URL con los datos en la cadena de consulta
   var url = '../CRUD/Controlador/procesar.php?' + queryString;
-
+  
   // Crear la solicitud GET
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
@@ -162,6 +222,7 @@ function actualizarUsuario() {
   var telefono = input_telefono.value;
   var email = input_email.value;
   var contenido = lbl_ID.textContent;
+  var ciudad = select_ciudad.options[select_ciudad.selectedIndex].text;
 
   // Codificar los datos en la cadena de consulta
   var queryString = 'accion=actualizarUsuario' +
@@ -169,12 +230,11 @@ function actualizarUsuario() {
     '&nombre=' + encodeURIComponent(nombre) +
     '&direccion=' + encodeURIComponent(direccion) +
     '&telefono=' + encodeURIComponent(telefono) +
-    '&email=' + encodeURIComponent(email);
+    '&email=' + encodeURIComponent(email) + 
+    '&ciudad=' + encodeURIComponent(ciudad);
 
   // Construir la URL con los datos en la cadena de consulta
   var url = '../CRUD/Controlador/procesar.php?' + queryString;
-
-  console.log(url);
 
   // Crear la solicitud GET
   var xhr = new XMLHttpRequest();
@@ -248,6 +308,7 @@ function crearTablaUsuarios(usuarios) {
         '<td>' + usuario.direccion + '</td>' +
         '<td>' + usuario.telefono + '</td>' +
         '<td>' + usuario.email + '</td>' +
+        '<td>' + usuario.ciudad + '</td>' +
         '<td>' +
         '<a href="" id="btnActualizar" class="btn btn-small btn-warning" data-id="' + usuario.id + '"><i class="fa-solid fa-pen-to-square"></i></a>' +
         '<a href="" id="btnEliminar" class="btn btn.small btn-danger" data-id="' + usuario.id + '"><i class="fa-solid fa-trash"></i></a>' +

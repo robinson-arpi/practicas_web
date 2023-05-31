@@ -6,8 +6,10 @@
     --color-resaltado-fuerte: #7624b1;
     --color-resaltado-fondo: #ffc6fb;
     --color-contraste-fonde-fuerte: #9395a9;
-  }
-  
+}
+
+
+
 body {
     font-family: Arial, sans-serif;
     margin: none;
@@ -79,7 +81,7 @@ body {
   input[type="text"],
   input[type="email"] {
     width: 100%;
-    padding: 10px;
+    padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
     margin-bottom: 1%;
@@ -161,3 +163,32 @@ body {
     width: 90%;
   }
 }
+
+.container-fluid{
+  margin:0% !important;
+}
+
+.contenedor_selectores {
+  display: flex !important;
+  justify-content: space-between;
+  flex-direction: row;
+  .selector {
+    width: 48% !important;
+    .grupo_entrada {
+      justify-content: center;
+      display:flex;
+      flex-direction: column;
+
+      #provincias,#ciudades{
+        width: 100% !important;
+        &:hover{
+          border-color: var(--color-resaltado-suave);
+        }
+      }
+      #lbl_ciudades, #lbl_ciudades{
+        width: 100% !important;
+      }
+    }
+  }
+}
+
