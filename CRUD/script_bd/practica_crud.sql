@@ -100,17 +100,16 @@ INSERT INTO ciudades (id, nombre, provincia_id) VALUES
     (47, 'Zamora', 24),
     (48, 'Yantzaza', 24);
 
-
 USE practicas_web;
 DROP TABLE usuarios;
 CREATE TABLE Usuarios (
-id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
-nombre VARCHAR(50) NOT NULL,
-direccion VARCHAR(50) NOT NULL,
-telefono VARCHAR(15) NOT NULL,
-email VARCHAR(50) NOT NULL,
-ciudad INT,
-FOREIGN KEY (ciudad) REFERENCES ciudades(id)
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
+    direccion VARCHAR(50) NOT NULL,
+    telefono VARCHAR(15) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    ciudad INT,
+    FOREIGN KEY (ciudad) REFERENCES ciudades(id)
 );
 
 

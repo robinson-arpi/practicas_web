@@ -15,11 +15,13 @@ function enviarCorreo($destinatario, $nombre){
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'robinson.arpi@gmail.com';
-        $mail->Password = 'vatsrafjndmuiqxd';
+        # tu correo aquí
+        $mail->Username = '';
+        # tu contraseña generada con la verificacion de 2 pasos aquí
+        $mail->Password = '';
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
-
+        # tu correo, tu nombre
         $mail->setFrom('robinson.arpi@gmail.com', 'Robinson');
         
         if (!$mail->validateAddress($destinatario)) {
